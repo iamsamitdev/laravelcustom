@@ -15,8 +15,13 @@ class BookController extends Controller {
 	 */
 	public function index()
 	{
+		return view('books.index');
+	}
+
+	public function showbook()
+	{
 		$data_book = Book::all();
-		return view('books.index')->with('book',$data_book);
+		return view('books.showbook_data')->with('book',$data_book);
 	}
 
 	/**
@@ -36,12 +41,23 @@ class BookController extends Controller {
 	 */
 	public function store()
 	{
-		$add_book = Book::create(Request::all());
+		//return "Store OK";
+		$data_book = array(
+			'isbn'		=> Request::get('isbn'),
+			'title'		=> Request::get('title'),
+			'author'		=> Request::get('author'),
+			'publisher'	=> Request::get('publisher')
+		);
+
+		// Insert data to model Book
+		$add_book = Book::create($data_book);
+		
+		// Check status insert data
 		if($add_book->exists())
 		{
-			return redirect('book/create')->with('status','<div class="alert alert-success">Add book success</div>');
+			return '<div class="alert alert-success">Add book success</div>';
 		}else{
-			return redirect('book/create')->with('status','<div class="alert alert-danger">Add book Fail!!!</div>');
+			return '<div class="alert alert-danger">Add book Fail!!!</div>';
 		}
 	}
 

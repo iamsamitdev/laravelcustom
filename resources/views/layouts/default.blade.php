@@ -9,7 +9,7 @@
 	<div class="container-fluid">
 		@yield('content')
 	</div>
-	
-        	@include('includes.footer')
+            @include('includes.footer')
+            @yield('script')
     </body>
 </html>

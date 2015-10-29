@@ -6,14 +6,23 @@ use App\Http\Controllers\Controller;
 use Request; // Library สำหรับเรียกรับค่าจาก form
 use Validator; // Libray สำหรับ validate form
 
+use App;
+use PDF;
+
 // เรียกใช้ Model Member
 use App\Http\Model\Member;
+use App\Http\Model\Course;
 
 class InterController extends Controller {
 
 	public function index()
 	{
-		return view("pages.index");
+
+		$pdf = App::make('dompdf.wrapper');
+		$pdf->loadHTML('<h1>Test</h1>');
+		return $pdf->stream();
+
+		//return view("pages.index");
 	}
 
 	public function about()
@@ -81,10 +90,23 @@ class InterController extends Controller {
 			);
 
 			$add_member = Member::create($data_member); // insert into member
+			$insertedId = $add_member->id;
 
 			// เช็คว่า insert success
 			if($add_member->exists())
 			{
+				/*$cid = array(getid);
+
+				foreach($cid as $c)
+				{
+					$data_course = array(
+						'course_id'	=> $insertedId
+					);
+
+					Course::create($data_course);
+				}
+				*/
+
 				return redirect('register')->with('status','<div class="alert alert-success">Insert Success</div>');
 			}else{
 				return redirect('register')->with('status','<div class="alert alert-danger">Insert Fail!!!</div>');

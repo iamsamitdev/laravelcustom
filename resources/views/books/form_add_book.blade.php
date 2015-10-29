@@ -16,10 +16,10 @@ class="active"
 	</div>
 
 	<div class="container">
-		<form action="{{URL::route('book.store')}}" method="POST" role="form">
+		<form id="add_book" method="POST" role="form">
 			<legend>Form title</legend>
 
-			{!!Session::get('status')!!}
+			<div class="showresult"></div>
 		
 			<div class="form-group">
 				<label>ISBN</label>
@@ -48,7 +48,17 @@ class="active"
 
 			<input type="hidden" name="_token" value="{{csrf_token()}}">
 		
-			<button type="submit" class="btn btn-block btn-primary">Submit</button><br><br>
+			<button type="submit" id="submit" class="btn btn-block btn-primary">Submit</button><br><br>
 		</form>
 	</div>
+
+@stop
+
+@section('script')
+	<script>
+		$(function(){
+			App.init();
+			App.doBookCreate();
+		});
+	</script>
 @stop
